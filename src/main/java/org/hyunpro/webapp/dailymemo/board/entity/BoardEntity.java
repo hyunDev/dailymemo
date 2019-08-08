@@ -1,14 +1,13 @@
-package org.hyunpro.webapp.dailymemo.board.board.entity;
+package org.hyunpro.webapp.dailymemo.board.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hyunpro.webapp.dailymemo.board.board.dto.BoardFileDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name="t_jpa_board")
@@ -32,10 +31,12 @@ public class BoardEntity {
     private String creatorId;
 
     @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdDatetime = LocalDateTime.now();
 
     private String updaterId;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime updatedDatetime;
 
     @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)

@@ -1,11 +1,11 @@
-package org.hyunpro.webapp.dailymemo.board.board.service;
+package org.hyunpro.webapp.dailymemo.board.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.hyunpro.webapp.dailymemo.board.board.entity.BoardEntity;
-import org.hyunpro.webapp.dailymemo.board.board.entity.BoardFileEntity;
-import org.hyunpro.webapp.dailymemo.board.board.repository.JpaBoardRepository;
+import org.hyunpro.webapp.dailymemo.board.entity.BoardEntity;
+import org.hyunpro.webapp.dailymemo.board.entity.BoardFileEntity;
+import org.hyunpro.webapp.dailymemo.board.repository.JpaBoardRepository;
 
 import org.hyunpro.webapp.dailymemo.common.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;

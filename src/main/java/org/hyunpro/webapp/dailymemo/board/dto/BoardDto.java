@@ -1,10 +1,8 @@
-package org.hyunpro.webapp.dailymemo.board.board.dto;
+package org.hyunpro.webapp.dailymemo.board.dto;
 
 import java.util.List;
 
 import lombok.Data;
-
-import javax.persistence.*;
 
 @Data
 public class BoardDto {

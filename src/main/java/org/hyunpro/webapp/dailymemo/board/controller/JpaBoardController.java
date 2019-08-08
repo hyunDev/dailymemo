@@ -1,16 +1,4 @@
-package org.hyunpro.webapp.dailymemo.board.board.controller;
-
-import org.hyunpro.webapp.dailymemo.board.board.entity.BoardEntity;
-import org.hyunpro.webapp.dailymemo.board.board.entity.BoardFileEntity;
-import org.hyunpro.webapp.dailymemo.board.board.service.JpaBoardService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
+package org.hyunpro.webapp.dailymemo.board.controller;
 
 import java.io.File;
 import java.net.URLEncoder;
@@ -19,15 +7,16 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.hyunpro.webapp.dailymemo.board.entity.BoardEntity;
+import org.hyunpro.webapp.dailymemo.board.service.JpaBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.hyunpro.webapp.dailymemo.board.entity.BoardFileEntity;
 
 
 @Controller
@@ -44,6 +33,11 @@ public class JpaBoardController {
         mv.addObject("list", list);
 
         return mv;
+    }
+
+    @RequestMapping(value="/jpa/board/test", method=RequestMethod.GET)
+    public String test() throws Exception{
+        return "/board/test";
     }
 
     @RequestMapping(value="/jpa/board/write", method=RequestMethod.GET)

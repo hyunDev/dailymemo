@@ -1,4 +1,4 @@
-package org.hyunpro.webapp.dailymemo.board.board.entity;
+package org.hyunpro.webapp.dailymemo.board.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

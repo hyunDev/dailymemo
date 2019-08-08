@@ -1,4 +1,4 @@
-package org.hyunpro.webapp.dailymemo.board.board.dto;
+package org.hyunpro.webapp.dailymemo.board.dto;
 
 import lombok.Data;
 

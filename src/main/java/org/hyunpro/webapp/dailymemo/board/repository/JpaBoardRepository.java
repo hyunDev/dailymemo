@@ -1,12 +1,13 @@
-package org.hyunpro.webapp.dailymemo.board.board.repository;
+package org.hyunpro.webapp.dailymemo.board.repository;
 
 import java.util.List;
 
-import org.hyunpro.webapp.dailymemo.board.board.entity.BoardEntity;
-import org.hyunpro.webapp.dailymemo.board.board.entity.BoardFileEntity;
+import org.hyunpro.webapp.dailymemo.board.entity.BoardEntity;
+import org.hyunpro.webapp.dailymemo.board.entity.BoardFileEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+
 
 public interface JpaBoardRepository extends CrudRepository<BoardEntity, Integer>{
 

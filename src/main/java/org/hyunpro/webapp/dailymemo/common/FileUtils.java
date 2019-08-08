@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.hyunpro.webapp.dailymemo.board.board.dto.BoardFileDto;
-import org.hyunpro.webapp.dailymemo.board.board.entity.BoardFileEntity;
+import org.hyunpro.webapp.dailymemo.board.dto.BoardFileDto;
+import org.hyunpro.webapp.dailymemo.board.entity.BoardFileEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
