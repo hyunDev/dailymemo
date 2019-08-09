@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 @EntityScan(basePackageClasses = {Jsr310Converters.class},
 			basePackages = {"org.hyunpro.webapp.dailymemo"})
-@SpringBootApplication(exclude={MultipartAutoConfiguration.class})
+@SpringBootApplication
 //@Configuration
 //@EnableAutoConfiguration
 //@ComponentScan

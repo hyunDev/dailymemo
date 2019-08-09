@@ -8,7 +8,8 @@
 <body>
 <div class="container">
 	<h2>게시글 등록</h2>
-	<form id="frm" name="frm" method="post" action="#" th:action="@{/jpa/board/write}" enctype="multipart/form-data">
+	<form id="frm" name="frm" method="post"
+		  th:action="@{/jpa/board/write(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data">
 		<table class="board_detail">
 			<tr>
 				<td>제목</td>
@@ -20,7 +21,6 @@
 				</td>
 			</tr>
 		</table>
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<input type="file" id="files" name="files" multiple="multiple">
 		<input type="submit" id="submit" value="저장" class="btn">
 	</form>
