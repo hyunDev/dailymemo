@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.Entity;
 
 @Data
-//@Entity
+//z@Entity
 //@EqualsAndHashCode(of = "uid")
 public class Account {
     private String id;

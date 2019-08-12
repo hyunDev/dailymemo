@@ -1,8 +1,11 @@
 package org.hyunpro.webapp.dailymemo.login;
 
+import org.hyunpro.webapp.dailymemo.Account.JpaAccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,6 +22,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity //csrf protection이 활성화 됨 아래 http.csrf()는 명시적인것
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    JpaAccountService jpaAccountService;
+
     @Override
     public void configure(WebSecurity web) throws Exception
     {
@@ -31,9 +37,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/create", "/login", "/member/sighUp").permitAll()
+                .antMatchers("board/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/**").authenticated()
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -48,6 +54,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+        auth.userDetailsService(jpaAccountService).passwordEncoder(passwordEncoder());
     }
 
 }

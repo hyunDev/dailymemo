@@ -13,6 +13,7 @@ public class AccountController {
     @Autowired
     AccountService accontService;
 
+    /*
     @GetMapping("/create")
     public Account create(){
         Account account = new Account();
@@ -22,6 +23,6 @@ public class AccountController {
 
         return accontService.save(account);
     }
-
+    */
 
 }

@@ -6,7 +6,7 @@
 </head>
 <script type="text/javascript">
     function isSame() {
-        var pw = $('#password1').val();
+        var pw = $('#password').val();
         var confirmPw = $('#password2').val();
         if(pw !='' && confirmPw !=''){
             if(pw == confirmPw){
@@ -27,7 +27,7 @@
             <table>
                 <tr>
                     <td class="label">아이디</td>
-                    <td class="content"><input type="text" name="username" placeholder="ID"/></td>
+                    <td class="content"><input type="text" id="id" name="id" placeholder="ID"/></td>
                 </tr>
                 <tr>
                     <td class="label"></td>
@@ -38,8 +38,12 @@
                     </td>
                 </tr>
                 <tr>
+                    <td class="label">이메일</td>
+                    <td class="content"><input type="text" id="email" name="email" placeholder="Password" onchange="isSame()"/></td>
+                </tr>
+                <tr>
                     <td class="label">비밀번호</td>
-                    <td class="content"><input type="password" id="password1" name="password" placeholder="Password" onchange="isSame()"/></td>
+                    <td class="content"><input type="password" id="password" name="password" placeholder="Password" onchange="isSame()"/></td>
                 </tr>
                 <tr>
                     <td class="label">비밀번호 확인</td>
