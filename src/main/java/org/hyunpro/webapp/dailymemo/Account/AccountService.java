@@ -2,39 +2,39 @@ package org.hyunpro.webapp.dailymemo.Account;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 @Service
-public class AccountService implements UserDetailsService {
+public class AccountService implements UserDetailsService{
 
     @Autowired
-    private AccountRepository accounts;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AccountRepository accountRepository;
+
+
+    public void saveAccount(Account account, HttpServletRequest httpServletRequest) throws Exception {
+        AccountRole role = new AccountRole();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        role.setRoleName("USER");
+        account.setRoles(Arrays.asList(role));
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
+        accountRepository.save(account);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accounts.findById(username);
+        Account account = accountRepository.findById(username);
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        if(account == null)
+            throw new UsernameNotFoundException(username);
 
-        return new User(account.getId(), account.getPassword(), authorities);
-    }
-
-    public Account save(Account account) {
-        account.setPassword(passwordEncoder.encode(account.getPassword()));
-        return accounts.save(account);
+        SecurityAccount securityAccount = new SecurityAccount(account);
+        return securityAccount;
     }
 }

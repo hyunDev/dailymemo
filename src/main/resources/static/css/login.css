@@ -3,6 +3,9 @@
     padding: 8% 0 0;
     margin: auto;
 }
+a{
+    text-decoration-line: none;
+}
 .form {
     position: relative;
     z-index: 1;
@@ -31,13 +34,13 @@
     font-size: 14px;
 }
 .form .submit {
+    display : block;
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
     background: #4CAF50;
     width: 100%;
-    border: 0;
-    padding: 15px;
+    padding: 15px 0px 15px 0px;
     color: #FFFFFF;
     font-size: 14px;
     cursor: pointer;

@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @Data
 @Entity
 @EqualsAndHashCode(of = "rno")
-public class JpaAccountRole {
+public class AccountRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rno;

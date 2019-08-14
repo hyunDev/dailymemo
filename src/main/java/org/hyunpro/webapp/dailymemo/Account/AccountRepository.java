@@ -1,22 +1,13 @@
 package org.hyunpro.webapp.dailymemo.Account;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
-import java.util.HashMap;
-import java.util.Map;
+public interface AccountRepository extends CrudRepository<Account, Integer> {
 
-@Repository
-public class AccountRepository {
 
-    private Map<String, Account> accounts = new HashMap<>();
+    @Query("SELECT account FROM Account account WHERE account.id = :id")
+    Account findById(@Param("id") String id);
 
-    public Account save(Account account) {
-        account.setId(account.getId());
-        accounts.put(account.getId(), account);
-        return account;
-    }
-
-    public Account findById(String username){
-        return accounts.get(username);
-    }
 }
