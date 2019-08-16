@@ -1,6 +1,5 @@
 // Toggle the side navigation
 $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
-  alert("1234");
   $("body").toggleClass("sidebar-toggled");
   $(".sidebar").toggleClass("toggled");
   if ($(".sidebar").hasClass("toggled")) {

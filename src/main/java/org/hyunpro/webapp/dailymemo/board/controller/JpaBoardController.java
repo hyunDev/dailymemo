@@ -68,8 +68,12 @@ public class JpaBoardController {
     }
 
     @RequestMapping(value="/layout/board/write", method=RequestMethod.GET)
-    public String openBoardWrite() throws Exception{
-        return "/layout/board/jpaBoardWrite";
+    public ModelAndView openBoardWrite(@AuthenticationPrincipal  SecurityAccount account) throws Exception{
+        ModelAndView mv = new ModelAndView("/layout/board/jpaBoardWrite");
+        if(account != null)
+            mv.addObject("Id", account.getUsername());
+
+        return mv;
     }
 
     @RequestMapping(value="/layout/board/write", method=RequestMethod.POST)
@@ -79,12 +83,13 @@ public class JpaBoardController {
     }
 
     @RequestMapping(value="/layout/board/{boardIdx}", method=RequestMethod.GET)
-    public ModelAndView openBoardDetail(@PathVariable("boardIdx") int boardIdx) throws Exception{
+    public ModelAndView openBoardDetail(@PathVariable("boardIdx") int boardIdx, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
         ModelAndView mv = new ModelAndView("/board/jpaBoardDetail");
 
         BoardEntity board = jpaBoardService.selectBoardDetail(boardIdx);
         mv.addObject("board", board);
-
+        if(account != null)
+            mv.addObject("Id", account.getUsername());
         return mv;
     }
 

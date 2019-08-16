@@ -6,8 +6,8 @@
 
         <!-- Nav Item - User Information -->
         <li th:if="${Id == null}">
-            <a th:href="@{/login}">로그인</a>
-            <a th:href="@{/create}">회원가입</a>
+            <a th:href="@{/login}" class="mr-1 font-weight-bold text-primary">로그인</a>
+            <a th:href="@{/member/signUp}" class="mr-1 font-weight-bold text-primary">회원가입</a>
         </li>
         <li th:if="${Id != null}" class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
