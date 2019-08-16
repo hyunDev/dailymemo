@@ -10579,6 +10579,9 @@ a:focus {
   display: flex;
 }
 
+#content{
+  width : 100%;
+}
 #wrapper #content-wrapper {
   background-color: #f8f9fc;
   width: 100%;

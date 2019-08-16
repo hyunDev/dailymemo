@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+	<!-- Custom styles for this template-->
+	<link href="/css/sb-admin-2.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/style.css}"/>
+
+	<title>board</title>
+</head>
+<body>
+<div id="wrapper">
+
+	<th:block th:replace="fragments/common/sidebar"></th:block>
+
+	<div id="content">
+		<th:block th:replace="fragments/common/topbar"></th:block>
+
+		<div class="container">
+			<h2>게시글 목록</h2>
+			<table class="board_list">
+				<colgroup>
+					<col width="15%"/>
+					<col width="*"/>
+					<col width="15%"/>
+					<col width="20%"/>
+				</colgroup>
+				<thead>
+					<tr>
+						<th scope="col">글번호</th>
+						<th scope="col">제목</th>
+						<th scope="col">조회수</th>
+						<th scope="col">작성일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}">
+						<td th:text="${list.boardIdx}"></td>
+						<td class="title">
+							<a href="/jpa/board/" th:attrappend="href=${list.boardIdx}" th:text="${list.title}"></a>
+						</td>
+						<td th:text="${list.hitCnt}"></td>
+						<td th:text="${list.createdDatetime}"></td>
+					</tr>
+					<tr th:unless="${#lists.size(list)} > 0">
+						<td colspan="4">조회된 결과가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+			<a href="/layout/board/write" class="btn">글 쓰기</a>
+		</div>
+	</div>
+</div>
+</body>
+</html>

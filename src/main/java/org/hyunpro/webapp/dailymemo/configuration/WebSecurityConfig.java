@@ -26,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/css/**", "/script/**", "image/**", "/fonts/**", "lib/**");
     }
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
@@ -42,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
             .logout()
-                .logoutSuccessUrl("/home")
+                .logoutSuccessUrl("/index")
                 .permitAll();
     }
 
