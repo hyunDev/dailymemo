@@ -50,6 +50,7 @@ header {
 }
 #calendar-wrap .month{
     font-size : 3em;
+    margin : 0.1em;
 }
 
 #calendar-wrap .cal-btn{
@@ -65,7 +66,6 @@ header {
 
 #calendar-wrap .arrow{
     font-size : 3em;
-    margin : 1em;
 }
 #calendar .days li {
     height: 180px;

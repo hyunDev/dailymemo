@@ -42,18 +42,6 @@ public class JpaBoardController {
         return mv;
     }
 
-    @RequestMapping(value="/layout/diary/diary", method=RequestMethod.GET)
-    public ModelAndView openDiary(ModelMap model, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
-        ModelAndView mv = new ModelAndView("/layout/diary/diary");
-
-      //List<BoardEntity> list = jpaBoardService.selectBoardList();
-      //mv.addObject("list", list);
-        if(account != null)
-            mv.addObject("Id", account.getUsername());
-
-        return mv;
-    }
-
     @RequestMapping(value="/layout/board/list", method=RequestMethod.GET)
     public ModelAndView openBoardList(ModelMap model, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
         ModelAndView mv = new ModelAndView("/layout/board/jpaboardList");
