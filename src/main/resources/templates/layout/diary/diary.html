@@ -17,26 +17,26 @@
             <div id="sidebar"></div>
             <div id="calendar-wrap">
                 <header>
-                    <!-- 전년으로 -->
-                    <a class="cal-btn" th:href="@{/layout/diary/year/${year}-1/month/${month}}">
+                    <!-- 전년으로 th:href="@{/jpa/board/file(idx=${list.idx}, boardIdx=${board.boardIdx})}"-->
+                    <a class="cal-btn" th:href="@{|/layout/diary/diary/${year-1}/${month}|}" >
                         <i class="fas fa-caret-left double-arrow"></i>
                         <i class="fas fa-caret-left double-arrow"></i>
                     </a>
                     <!-- 전달로 -->
-                    <button class="cal-btn">
+                    <a class="cal-btn" th:href="@{|/layout/diary/diary/${year}/${month-1}|}" >
                         <i class="fas fa-caret-left arrow"></i>
-                    </button>
-                    <span class="month" th:text="|${#calendars.year(date)}년|"></span>
-                    <span class="month" th:text="${#calendars.monthName(date)}"></span>
+                    </a>
+                    <span class="month" th:text="|${year}년|"></span>
+                    <span class="month" th:text="|${month}월|"></span>
                     <!-- 다음달로 -->
-                    <button class="cal-btn">
+                    <a class="cal-btn" th:href="@{|/layout/diary/diary/${year}/${month+1}|}" >
                         <i class="fas fa-caret-right arrow"></i>
-                    </button>
+                    </a>
                     <!-- 다음년으로 -->
-                    <button class="cal-btn">
+                    <a class="cal-btn" th:href="@{|/layout/diary/diary/${year+1}/${month}|}" >
                         <i class="fas fa-caret-right double-arrow"></i>
                         <i class="fas fa-caret-right double-arrow"></i>
-                    </button>
+                    </a>
                 </header>
                 <div id="calendar">
                     <ul class="weekdays">
