@@ -19,8 +19,8 @@ public class AccountService implements UserDetailsService{
     @Autowired
     private AccountRepository accountRepository;
 
-   @Autowired
-   private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     public void saveAccount(Account account, HttpServletRequest httpServletRequest) throws Exception {

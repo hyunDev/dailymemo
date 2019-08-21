@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:replace="fragments/common/header"></th:block>
+</head>
+<body>
+<div id="wrapper">
+
+	<th:block th:replace="fragments/common/sidebar"></th:block>
+
+	<div id="content">
+		<th:block th:replace="fragments/common/topbar"></th:block>
+		<div class="container">
+			<h2>다이어리 등록</h2>
+			<form id="frm" name="frm" method="post"
+				  th:action="@{/layout/diary/diaryWrite}" >
+				<table class="board_detail">
+					<tr>
+						<td>날짜</td>
+						<input type="text" id="date" name="date" th:value="${#calendars.format(date, 'yyyy-MM-dd')}" readonly>
+					</tr>
+					<tr>
+						<td>제목</td>
+						<td><input type="text" id="title" name="title"/></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<textarea id="contents" name="contents"></textarea>
+						</td>
+					</tr>
+				</table>
+				<input type="submit" id="submit" value="저장" class="btn">
+			</form>
+		</div>
+	</div>
+</div>
+<th:block th:replace="fragments/common/footer"></th:block>
+</body>
+</html>

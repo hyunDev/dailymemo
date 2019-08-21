@@ -1,6 +1,7 @@
 package org.hyunpro.webapp.dailymemo.diary.controller;
 
 import org.hyunpro.webapp.dailymemo.Account.SecurityAccount;
+import org.hyunpro.webapp.dailymemo.diary.Entity.Diary;
 import org.hyunpro.webapp.dailymemo.diary.service.DiaryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 public class DiaryController {
@@ -26,6 +28,10 @@ public class DiaryController {
         ModelAndView mv = new ModelAndView("/layout/diary/diary");
 
         HashMap<String, Integer> date = diaryService.getDate();
+
+        List<Object[]> list = diaryService.selectDiaryList(date.get("year"), date.get("month"), account);
+
+        System.out.println(list.get(0));
 
         mv.addObject("year", date.get("year"));
         mv.addObject("month", date.get("month"));
@@ -53,5 +59,28 @@ public class DiaryController {
             mv.addObject("Id", account.getUsername());
 
         return mv;
+    }
+
+    @RequestMapping(value="/layout/diary/diaryWrite/{year}/{month}/{day}", method=RequestMethod.GET)
+    public ModelAndView writeDiary(@PathVariable("year") int year, @PathVariable("month") int month, @PathVariable("day") int day, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
+        ModelAndView mv = new ModelAndView("/layout/diary/diaryWrite");
+
+        Calendar d = diaryService.getDate(year, month, day);
+
+        mv.addObject("date", d);
+
+        if(account != null)
+            mv.addObject("Id", account.getUsername());
+
+        return mv;
+    }
+
+    //String으로 반환 로그인 상태 유지하는거 topbar에 보여주는거 어떻게 할까?
+    @RequestMapping(value="/layout/diary/diaryWrite", method=RequestMethod.POST)
+    public String writeDiary(Diary diary, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
+
+        diaryService.saveDiary(diary ,account);
+
+        return "redirect:/layout/diary/diary";
     }
 }

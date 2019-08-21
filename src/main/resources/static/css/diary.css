@@ -85,7 +85,13 @@ header {
     border-radius: 50%;
     float: right;
 }
+#calendar .ex-date {
+    background: gray;
+}
 
+#calendar .nx-date {
+    background: gray;
+}
 #calendar .event {
     clear: both;
     display: block;
