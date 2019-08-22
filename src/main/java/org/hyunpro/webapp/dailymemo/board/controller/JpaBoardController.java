@@ -96,7 +96,7 @@ public class JpaBoardController {
     public String updateBoard(BoardEntity board,  @AuthenticationPrincipal SecurityAccount account) throws Exception{
         System.out.println("modify입니다");
         jpaBoardService.updateBoard(board, null, account);
-        return "redirect:/layout/board";
+        return "redirect:/layout/board/list";
     }
 
     @RequestMapping(value="/layout/board/delete/{boardIdx}", method=RequestMethod.DELETE)

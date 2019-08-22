@@ -12,7 +12,7 @@
 		<th:block th:replace="fragments/common/topbar"></th:block>
 		<div class="container">
 			<h2>공지사항</h2>
-			<form id="frm" method="post">
+			<form id="frm" method="post" th:action="@{/layout/board/modify}">
 				<table class="board_detail">
 					<colgroup>
 						<col width="15%"/>
@@ -45,22 +45,46 @@
 						</tr>
 					</tbody>
 				</table>
-				<div class="file_list">
-					<a th:each="list : ${board.fileList}" th:href="@{/layout/board/file(idx=${list.idx}, boardIdx=${board.boardIdx})}" th:text="|${list.originalFileName} ($(#numbers.formatInteger(list.fileSize/1000,1,'DEFAULT')} kb)|"></a>
-				</div>
-
-				<a th:href="@{/layout/board/list}"  class="btn">목록으로</a>
-				<input th:href="@{/layout/board/modify}" type="submit" class="btn" value="저장하기"/>
-				<input th:href="@{|/layout/board/delete/${board.boardIdx}|}" type="submit" class="btn" value="삭제하기"/>
 				<input type="hidden" id="boardIdx" name="boardIdx" th:value="${board.boardIdx }">
 				<input type="hidden" id="method" name="_method"/>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				<input type="submit" value="저장하기"/>
 			</form>
+			<div class="file_list">
+				<a th:each="list : ${board.fileList}" th:href="@{/layout/board/file(idx=${list.idx}, boardIdx=${board.boardIdx})}" th:text="|${list.originalFileName} ($(#numbers.formatInteger(list.fileSize/1000,1,'DEFAULT')} kb)|"></a>
+			</div>
 
+			<a href="#this" id="list" class="btn">목록으로</a>
+			<a href="#this" id="edit" class="btn">저장하기</a>
+			<a href="#this" id="delete" class="btn">삭제하기</a>
 
 		</div>
 	</div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <th:block th:replace="fragments/common/footer"></th:block>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var boardIdx = $("#boardIdx").val();
+
+		$("#list").on("click", function(){
+			location.href = "/layout/board/list";
+		});
+
+		$("#edit").on("click", function(){
+			//$("#method").val("post");
+			var frm = $("#frm")[0];
+			frm.action = "/layout/board/modify";
+			frm.submit();
+		});
+
+		$("#delete").on("click", function(){
+			$("#method").val("delete");
+			var frm = $("#frm")[0];
+			frm.action = "/layout/board/" + boardIdx;;
+			frm.submit();
+		});
+	});
+</script>
 </body>
 </html>

@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
+
 
 public interface JpaBoardRepository extends CrudRepository<BoardEntity, Integer>{
 
@@ -19,6 +21,7 @@ public interface JpaBoardRepository extends CrudRepository<BoardEntity, Integer>
     BoardFileEntity findBoardFile(@Param("boardIdx") int boardIdx, @Param("idx") int idx);
 
     @Modifying
+    @Transactional
     @Query(value="UPDATE t_jpa_board SET contents=:contents, title=:title, updated_datetime=:updated_datetime WHERE board_idx =:board_idx and creator_id = :id"
     , nativeQuery = true)
     void update(@Param("contents") String contents, @Param("title") String title

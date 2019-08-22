@@ -45,22 +45,39 @@
 						</tr>
 					</tbody>
 				</table>
-				<div class="file_list">
-					<a th:each="list : ${board.fileList}" th:href="@{/layout/board/file(idx=${list.idx}, boardIdx=${board.boardIdx})}" th:text="|${list.originalFileName} ($(#numbers.formatInteger(list.fileSize/1000,1,'DEFAULT')} kb)|"></a>
-				</div>
 
-				<a th:href="@{/layout/board/list}" id="list" class="btn">목록으로</a>
-				<a th:href="@{|/layout/board/modify/${boardIdx}|}" id="edit" class="btn">수정하기</a>
-				<a th:href="@{|/layout/board/delete/${boardIdx}|}" id="delete" class="btn">삭제하기</a>
 				<input type="hidden" id="boardIdx" name="boardIdx" th:value="${board.boardIdx }">
 				<input type="hidden" id="method" name="_method"/>
 			</form>
+			<div class="file_list">
+				<a th:each="list : ${board.fileList}" th:href="@{/layout/board/file(idx=${list.idx}, boardIdx=${board.boardIdx})}" th:text="|${list.originalFileName} ($(#numbers.formatInteger(list.fileSize/1000,1,'DEFAULT')} kb)|"></a>
+			</div>
 
+			<a href="#this" id="list" class="btn">목록으로</a>
+			<a href="#this" id="edit" class="btn">수정하기</a>
+			<a href="#this" id="delete" class="btn">삭제하기</a>
 
 		</div>
 	</div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <th:block th:replace="fragments/common/footer"></th:block>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var boardIdx = $("#boardIdx").val();
+		$("#list").on("click", function(){
+			location.href = "/layout/board/list";
+		});
+		$("#edit").on("click", function(){
+			location.href = "/layout/board/modify/" + boardIdx;
+		});
+		$("#delete").on("click", function(){
+			$("#method").val("delete");
+			var frm = $("#frm")[0];
+			frm.action = "jpa/board/" + boardIdx;;
+			frm.submit();
+		});
+	});
+</script>
 </body>
 </html>
