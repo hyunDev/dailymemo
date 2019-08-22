@@ -65,29 +65,41 @@ public class JpaBoardController {
     }
 
     @RequestMapping(value="/layout/board/write", method=RequestMethod.POST)
-    public String writeBoard(BoardEntity board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
-        jpaBoardService.saveBoard(board, multipartHttpServletRequest);
+    public String writeBoard(BoardEntity board, MultipartHttpServletRequest multipartHttpServletRequest, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
+        jpaBoardService.saveBoard(board, multipartHttpServletRequest, account);
         return "redirect:/layout/board/list";
     }
 
     @RequestMapping(value="/layout/board/{boardIdx}", method=RequestMethod.GET)
     public ModelAndView openBoardDetail(@PathVariable("boardIdx") int boardIdx, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
-        ModelAndView mv = new ModelAndView("/board/jpaBoardDetail");
+        ModelAndView mv = new ModelAndView("/layout/board/jpaBoardDetail");
 
-        BoardEntity board = jpaBoardService.selectBoardDetail(boardIdx);
+        BoardEntity board = jpaBoardService.selectBoardDetail(boardIdx, "detail");
         mv.addObject("board", board);
         if(account != null)
             mv.addObject("Id", account.getUsername());
         return mv;
     }
 
-    @RequestMapping(value="/layout/board/{boardIdx}", method=RequestMethod.PUT)
-    public String updateBoard(BoardEntity board) throws Exception{
-        jpaBoardService.saveBoard(board, null);
+    @RequestMapping(value="/layout/board/modify/{boardIdx}", method=RequestMethod.GET)
+    public ModelAndView openBoardModify(@PathVariable("boardIdx") int boardIdx, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
+        ModelAndView mv = new ModelAndView("/layout/board/jpaBoardModify");
+
+        BoardEntity board = jpaBoardService.selectBoardDetail(boardIdx, "modify");
+        mv.addObject("board", board);
+        if(account != null)
+            mv.addObject("Id", account.getUsername());
+        return mv;
+    }
+
+    @RequestMapping(value="/layout/board/modify", method=RequestMethod.POST)
+    public String updateBoard(BoardEntity board,  @AuthenticationPrincipal SecurityAccount account) throws Exception{
+        System.out.println("modify입니다");
+        jpaBoardService.updateBoard(board, null, account);
         return "redirect:/layout/board";
     }
 
-    @RequestMapping(value="/layout/board/{boardIdx}", method=RequestMethod.DELETE)
+    @RequestMapping(value="/layout/board/delete/{boardIdx}", method=RequestMethod.DELETE)
     public String deleteBoard(@PathVariable("boardIdx") int boardIdx) throws Exception{
         jpaBoardService.deleteBoard(boardIdx);
         return "redirect:/layout/board";

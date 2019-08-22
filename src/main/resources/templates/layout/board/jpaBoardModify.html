@@ -36,11 +36,11 @@
 						</tr>
 						<tr>
 							<th scope="row">제목</th>
-							<td colspan="3"><input class="readonly" type="text" id="title" name="title" th:value="${board.title }" readonly/></td>
+							<td colspan="3"><input type="text" id="title" name="title" th:value="${board.title }"/></td>
 						</tr>
 						<tr>
 							<td colspan="4" class="view_text">
-								<textarea class="readonly" title="내용" id="contents" name="contents" th:text="${board.contents }" readonly></textarea>
+								<textarea title="내용" id="contents" name="contents" th:text="${board.contents }"></textarea>
 							</td>
 						</tr>
 					</tbody>
@@ -49,9 +49,9 @@
 					<a th:each="list : ${board.fileList}" th:href="@{/layout/board/file(idx=${list.idx}, boardIdx=${board.boardIdx})}" th:text="|${list.originalFileName} ($(#numbers.formatInteger(list.fileSize/1000,1,'DEFAULT')} kb)|"></a>
 				</div>
 
-				<a th:href="@{/layout/board/list}" id="list" class="btn">목록으로</a>
-				<a th:href="@{|/layout/board/modify/${boardIdx}|}" id="edit" class="btn">수정하기</a>
-				<a th:href="@{|/layout/board/delete/${boardIdx}|}" id="delete" class="btn">삭제하기</a>
+				<a th:href="@{/layout/board/list}"  class="btn">목록으로</a>
+				<input th:href="@{/layout/board/modify}" type="submit" class="btn" value="저장하기"/>
+				<input th:href="@{|/layout/board/delete/${board.boardIdx}|}" type="submit" class="btn" value="삭제하기"/>
 				<input type="hidden" id="boardIdx" name="boardIdx" th:value="${board.boardIdx }">
 				<input type="hidden" id="method" name="_method"/>
 			</form>

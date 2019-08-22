@@ -1,8 +1,12 @@
 package org.hyunpro.webapp.dailymemo.board.service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.hyunpro.webapp.dailymemo.Account.SecurityAccount;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardEntity;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardFileEntity;
 import org.hyunpro.webapp.dailymemo.board.repository.JpaBoardRepository;
@@ -29,8 +33,8 @@ public class JpaBoardServiceImpl implements JpaBoardService{
     }
 
     @Override
-    public void saveBoard(BoardEntity board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
-        board.setCreatorId("admin");
+    public void saveBoard(BoardEntity board, MultipartHttpServletRequest multipartHttpServletRequest, SecurityAccount account) throws Exception {
+        board.setCreatorId(account.getUsername());
         List<BoardFileEntity> list = fileUtils.parseFileInfo(multipartHttpServletRequest);
         if(CollectionUtils.isEmpty(list) == false){
             board.setFileList(list);
@@ -39,12 +43,24 @@ public class JpaBoardServiceImpl implements JpaBoardService{
     }
 
     @Override
-    public BoardEntity selectBoardDetail(int boardIdx) throws Exception{
+    public void updateBoard(BoardEntity board, MultipartHttpServletRequest multipartHttpServletRequest, SecurityAccount account) throws Exception {
+        board.setCreatorId(account.getUsername());
+        board.setUpdatedDatetime(LocalDateTime.now());
+
+
+        jpaBoardRepository.update(board.getContents(), board.getTitle(), board.getUpdatedDatetime(), board.getBoardIdx(), account.getUsername());
+    }
+
+    @Override
+    public BoardEntity selectBoardDetail(int boardIdx, String mode) throws Exception{
         Optional<BoardEntity> optional = jpaBoardRepository.findById(boardIdx);
         if(optional.isPresent()){
             BoardEntity board = optional.get();
-            board.setHitCnt(board.getHitCnt() + 1);
-            jpaBoardRepository.save(board);
+
+            if(mode=="detail") { //  수정할때는 안타게
+                board.setHitCnt(board.getHitCnt() + 1);
+                jpaBoardRepository.save(board);
+            }
 
             return board;
         }

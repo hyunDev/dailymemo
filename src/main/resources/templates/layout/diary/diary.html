@@ -54,30 +54,31 @@
                         <!-- 날짜반복  -->
                         <li th:each="j: ${#numbers.sequence(1,7)} " th:with="day=${i*7+j - #calendars.dayOfWeek(today) + 1}">
                             <!-- 이전달  -->
-                            <div  th:if="${#calendars.dayOfWeek(today) > j}">
-                                <a class="date ex-date" th:href="@{|/layout/diary/diaryWrite/${year}/${month-1}/${ex_last_day + day}|}"
-                                   th:text="${ex_last_day + day}"></a>
-                            </div>
+                            <a th:if="${#calendars.dayOfWeek(today) > j}" th:href="@{|/layout/diary/diaryWrite/${year}/${month-1}/${ex_last_day + day}|}">
+                                <div class="date ex-date"
+                                   th:text="${ex_last_day + day}"></div>
+                            </a>
                             <!-- 현재달  -->
-                            <div  th:if="${#calendars.dayOfWeek(today) <= j}" >
-                                <a class="date" th:href="@{|/layout/diary/diaryWrite/${year}/${month}/${day}|}" th:text="${day}">
-                                    <div class="event-desc" th:text=${"list.title"}></div>
-                                </a>
-                            </div>
+                            <a th:if="${#calendars.dayOfWeek(today) <= j}" th:href="@{|/layout/diary/diaryWrite/${year}/${month}/${day}|}">
+                                <div class="date"  th:text="${day}"></div>
+                                <div class="event" th:if="${calendar[i*7+j-1].id != null}">
+                                    <div class="event-desc" th:text="${calendar[i*7+j-1].title}"></div>
+                                </div>
+                            </a>
                         </li>
                     </ul>
                     <!-- 2~6주 -->
                     <ul class="days" th:each="i: ${#numbers.sequence(1,5)}">
                         <li th:each="j: ${#numbers.sequence(1,7)}" th:with="day=${i*7+j - #calendars.dayOfWeek(today) + 1}">
                             <!-- 현재달  -->
-                            <div th:if="${day <= last_day}">
-                                <a class="date" th:href="@{|/layout/diary/diaryWrite/${year}/${month}/${day}|}" th:text="${day}"></a>
-                            </div>
+                            <a th:if="${day <= last_day}" th:href="@{|/layout/diary/diaryWrite/${year}/${month}/${day}|}">
+                                <div class="date"  th:text="${day}"></div>
+                            </a>
                             <!-- 다음달  -->
-                            <div th:if="${day > last_day}">
-                                <a class="date ex-date" th:href="@{|/layout/diary/diaryWrite/${year}/${month+1}/${day - last_day}|}"
-                                   th:text="${day - last_day}"></a>
-                            </div>
+                            <a th:if="${day > last_day}" th:href="@{|/layout/diary/diaryWrite/${year}/${month+1}/${day - last_day}|}">
+                                <div class="date ex-date"
+                                   th:text="${day - last_day}"></div>
+                            </a>
                         </li>
                     </ul>
                     <!--

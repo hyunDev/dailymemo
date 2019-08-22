@@ -6,11 +6,9 @@ import org.hyunpro.webapp.dailymemo.diary.repository.diaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.thymeleaf.expression.Arrays;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DiaryServiceImpl implements DiaryService {
@@ -21,11 +19,12 @@ public class DiaryServiceImpl implements DiaryService {
     private diaryRepository diaryRepository;
 
     @Override
-    public List<Object[]> selectDiaryList(int year, int month, SecurityAccount account) throws Exception {
+    public ArrayList<Diary> selectDiaryList(int year, int month, SecurityAccount account) throws Exception {
         Calendar cal = Calendar.getInstance();
-        cal.set(year, month-1, 1);
+        cal.set(year, month-1, 1); // 페이지 달의 1일
+        cal.add(Calendar.DATE, -cal.get(Calendar.DAY_OF_WEEK)); // 일요일 부터 시작하는 날짜로 돌아감
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         return diaryRepository.findAllByIdAndDate(account.getUsername(), dateFormat.format(cal.getTime()));
     }

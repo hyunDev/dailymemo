@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.expression.Arrays;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class DiaryController {
@@ -29,9 +27,9 @@ public class DiaryController {
 
         HashMap<String, Integer> date = diaryService.getDate();
 
-        List<Object[]> list = diaryService.selectDiaryList(date.get("year"), date.get("month"), account);
+        ArrayList<Diary> calendar = diaryService.selectDiaryList(date.get("year"), date.get("month"), account);
 
-        System.out.println(list.get(0));
+        mv.addObject("calendar", calendar);
 
         mv.addObject("year", date.get("year"));
         mv.addObject("month", date.get("month"));

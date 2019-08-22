@@ -11,7 +11,7 @@
 	<div id="content">
 		<th:block th:replace="fragments/common/topbar"></th:block>
 		<div class="container">
-			<h2>게시글 등록</h2>
+			<h2>공지사항</h2>
 			<form id="frm" name="frm" method="post"
 				  th:action="@{/layout/board/write(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data">
 				<table class="board_detail">
