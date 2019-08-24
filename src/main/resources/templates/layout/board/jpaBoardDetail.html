@@ -12,7 +12,7 @@
 		<th:block th:replace="fragments/common/topbar"></th:block>
 		<div class="container">
 			<h2>공지사항</h2>
-			<form id="frm" method="post">
+			<form id="frm" th:method="post" th:action="@{/layout/board/}">
 				<table class="board_detail">
 					<colgroup>
 						<col width="15%"/>
@@ -47,21 +47,30 @@
 				</table>
 
 				<input type="hidden" id="boardIdx" name="boardIdx" th:value="${board.boardIdx }">
-				<input type="hidden" id="method" name="_method"/>
-			</form>
-			<div class="file_list">
-				<a th:each="list : ${board.fileList}" th:href="@{/layout/board/file(idx=${list.idx}, boardIdx=${board.boardIdx})}" th:text="|${list.originalFileName} ($(#numbers.formatInteger(list.fileSize/1000,1,'DEFAULT')} kb)|"></a>
-			</div>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                <div class="file_list">
+                    <a th:each="list : ${board.fileList}" th:href="@{/layout/board/file(idx=${list.idx}, boardIdx=${board.boardIdx})}" th:text="|${list.originalFileName} ($(#numbers.formatInteger(list.fileSize/1000,1,'DEFAULT')} kb)|"></a>
+                </div>
 
-			<a href="#this" id="list" class="btn">목록으로</a>
-			<a href="#this" id="edit" class="btn">수정하기</a>
-			<a href="#this" id="delete" class="btn">삭제하기</a>
+                <a href="#this" id="list" class="btn">목록으로</a>
+                <a href="#this" id="edit" class="btn">수정하기</a>
+                <input class="btn" id="del" type="submit" value="삭제하기"/>
+			</form>
+
 
 		</div>
 	</div>
 </div>
 <th:block th:replace="fragments/common/footer"></th:block>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:inline="javascript">
+    var del = /*[[ @{/layout/board/delete} ]]*/ ;
+
+    $("#del").on("click", function () {
+        $("#frm").attr("method", "get");
+        $("#frm").attr("action", del);
+    });
+</script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		var boardIdx = $("#boardIdx").val();
@@ -70,12 +79,6 @@
 		});
 		$("#edit").on("click", function(){
 			location.href = "/layout/board/modify/" + boardIdx;
-		});
-		$("#delete").on("click", function(){
-			$("#method").val("delete");
-			var frm = $("#frm")[0];
-			frm.action = "jpa/board/" + boardIdx;;
-			frm.submit();
 		});
 	});
 </script>

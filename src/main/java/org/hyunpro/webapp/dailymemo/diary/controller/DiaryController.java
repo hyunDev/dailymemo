@@ -1,5 +1,6 @@
 package org.hyunpro.webapp.dailymemo.diary.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hyunpro.webapp.dailymemo.Account.SecurityAccount;
 import org.hyunpro.webapp.dailymemo.diary.Entity.Diary;
 import org.hyunpro.webapp.dailymemo.diary.service.DiaryServiceImpl;
@@ -16,22 +17,25 @@ import org.thymeleaf.expression.Arrays;
 import java.util.*;
 
 @Controller
+@Slf4j
+@RequestMapping("/layout/diary")
 public class DiaryController {
 
+    private String basicUrl = "/layout/diary";
     @Autowired
     DiaryServiceImpl diaryService;
 
-    @RequestMapping(value="/layout/diary/diary", method=RequestMethod.GET)
+    @RequestMapping(value="/diary", method=RequestMethod.GET)
     public ModelAndView openDiary(ModelMap model, @AuthenticationPrincipal SecurityAccount account) throws Exception{
-        ModelAndView mv = new ModelAndView("/layout/diary/diary");
+        ModelAndView mv = new ModelAndView(basicUrl + "/diary");
 
         HashMap<String, Integer> date = diaryService.getDate();
 
         ArrayList<Diary> calendar = diaryService.selectDiaryList(date.get("year"), date.get("month"), account);
 
-        mv.addObject("calendar", calendar);
 
         mv.addObject("year", date.get("year"));
+        mv.addObject("calendar",calendar);
         mv.addObject("month", date.get("month"));
         mv.addObject("last_day", date.get("last_day"));
         mv.addObject("ex_last_day", date.get("ex_last_day"));
@@ -42,9 +46,9 @@ public class DiaryController {
         return mv;
     }
 
-    @RequestMapping(value="/layout/diary/diary/{year}/{month}", method=RequestMethod.GET)
+    @RequestMapping(value="/diary/{year}/{month}", method=RequestMethod.GET)
     public ModelAndView openDiary(@PathVariable("year") int year, @PathVariable("month") int month, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
-        ModelAndView mv = new ModelAndView("/layout/diary/diary");
+        ModelAndView mv = new ModelAndView(basicUrl + "/diary");
 
         HashMap<String, Integer> date = diaryService.getDate(year, month);
 
@@ -59,9 +63,9 @@ public class DiaryController {
         return mv;
     }
 
-    @RequestMapping(value="/layout/diary/diaryWrite/{year}/{month}/{day}", method=RequestMethod.GET)
+    @RequestMapping(value="/diaryWrite/{year}/{month}/{day}", method=RequestMethod.GET)
     public ModelAndView writeDiary(@PathVariable("year") int year, @PathVariable("month") int month, @PathVariable("day") int day, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
-        ModelAndView mv = new ModelAndView("/layout/diary/diaryWrite");
+        ModelAndView mv = new ModelAndView(basicUrl+ "/diaryWrite");
 
         Calendar d = diaryService.getDate(year, month, day);
 
@@ -74,11 +78,11 @@ public class DiaryController {
     }
 
     //String으로 반환 로그인 상태 유지하는거 topbar에 보여주는거 어떻게 할까?
-    @RequestMapping(value="/layout/diary/diaryWrite", method=RequestMethod.POST)
+    @RequestMapping(value="/diaryWrite", method=RequestMethod.POST)
     public String writeDiary(Diary diary, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
 
         diaryService.saveDiary(diary ,account);
 
-        return "redirect:/layout/diary/diary";
+        return "redirect:" + basicUrl + "/diary";
     }
 }

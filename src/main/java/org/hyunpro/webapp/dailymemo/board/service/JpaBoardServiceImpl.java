@@ -70,8 +70,8 @@ public class JpaBoardServiceImpl implements JpaBoardService{
     }
 
     @Override
-    public void deleteBoard(int boardIdx) {
-        jpaBoardRepository.deleteById(boardIdx);
+    public void deleteBoard(BoardEntity board, SecurityAccount account) {
+        jpaBoardRepository.deleteById(board.getBoardIdx());
     }
 
     @Override

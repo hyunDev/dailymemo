@@ -57,11 +57,14 @@
                             <a th:if="${#calendars.dayOfWeek(today) > j}" th:href="@{|/layout/diary/diaryWrite/${year}/${month-1}/${ex_last_day + day}|}">
                                 <div class="date ex-date"
                                    th:text="${ex_last_day + day}"></div>
+                                <div class="event" th:if="${calendar[i*7+j-1] != null}">
+                                    <div class="event-desc" th:text="${calendar[i*7+j-1].title}"></div>
+                                </div>
                             </a>
                             <!-- 현재달  -->
                             <a th:if="${#calendars.dayOfWeek(today) <= j}" th:href="@{|/layout/diary/diaryWrite/${year}/${month}/${day}|}">
                                 <div class="date"  th:text="${day}"></div>
-                                <div class="event" th:if="${calendar[i*7+j-1].id != null}">
+                                <div class="event" th:if="${calendar[i*7+j-1] != null}">
                                     <div class="event-desc" th:text="${calendar[i*7+j-1].title}"></div>
                                 </div>
                             </a>
@@ -73,11 +76,17 @@
                             <!-- 현재달  -->
                             <a th:if="${day <= last_day}" th:href="@{|/layout/diary/diaryWrite/${year}/${month}/${day}|}">
                                 <div class="date"  th:text="${day}"></div>
+                                <div class="event" th:if="${calendar[i*7+j-1] != null}">
+                                    <div class="event-desc" th:text="${calendar[i*7+j-1].title}"></div>
+                                </div>
                             </a>
                             <!-- 다음달  -->
                             <a th:if="${day > last_day}" th:href="@{|/layout/diary/diaryWrite/${year}/${month+1}/${day - last_day}|}">
                                 <div class="date ex-date"
                                    th:text="${day - last_day}"></div>
+                                <div class="event" th:if="${calendar[i*7+j-1] != null}">
+                                    <div class="event-desc" th:text="${calendar[i*7+j-1].title}"></div>
+                                </div>
                             </a>
                         </li>
                     </ul>

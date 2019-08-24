@@ -70,7 +70,7 @@ public class JpaBoardController {
         return "redirect:/layout/board/list";
     }
 
-    @RequestMapping(value="/layout/board/{boardIdx}", method=RequestMethod.GET)
+    @RequestMapping(value="/layout/board/detail/{boardIdx}", method=RequestMethod.GET)
     public ModelAndView openBoardDetail(@PathVariable("boardIdx") int boardIdx, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
         ModelAndView mv = new ModelAndView("/layout/board/jpaBoardDetail");
 
@@ -99,10 +99,10 @@ public class JpaBoardController {
         return "redirect:/layout/board/list";
     }
 
-    @RequestMapping(value="/layout/board/delete/{boardIdx}", method=RequestMethod.DELETE)
-    public String deleteBoard(@PathVariable("boardIdx") int boardIdx) throws Exception{
-        jpaBoardService.deleteBoard(boardIdx);
-        return "redirect:/layout/board";
+    @RequestMapping(value="/layout/board/delete", method=RequestMethod.GET)
+    public String deleteBoard(BoardEntity board,  @AuthenticationPrincipal SecurityAccount account) throws Exception{
+        jpaBoardService.deleteBoard(board,account);
+        return "redirect:/layout/board/list";
     }
 
     @RequestMapping(value="/layout/board/file", method=RequestMethod.GET)

@@ -34,9 +34,11 @@ public class AccountService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountRepository.findById(username);
+        UserDetails userDetails = null;
 
         if(account == null)
-            throw new UsernameNotFoundException(username);
+            return userDetails;
+            //throw new UsernameNotFoundException(username);
 
         SecurityAccount securityAccount = new SecurityAccount(account);
         return securityAccount;
