@@ -6,11 +6,13 @@ import org.hyunpro.webapp.dailymemo.diary.Entity.Diary;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 public interface DiaryService {
 
     ArrayList<Diary> selectDiaryList(int year, int month, SecurityAccount account) throws Exception;
+    Diary getDiary(int year, int month, int day, SecurityAccount account) throws Exception;
     HashMap<String, Integer> getDate() throws Exception;
     HashMap<String, Integer> getDate(int year, int month) throws Exception;
     Calendar getDate(int year, int month, int day) throws Exception;

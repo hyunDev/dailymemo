@@ -13,19 +13,28 @@
 		<div class="container">
 			<h2>다이어리 등록</h2>
 			<form id="frm" name="frm" method="post"
-				  th:action="@{/layout/diary/diaryWrite}" >
+				  th:action="@{/layout/diary/diaryWrite/}" >
 				<table class="board_detail">
 					<tr>
 						<td>날짜</td>
-						<input type="text" id="date" name="date" th:value="${#calendars.format(date, 'yyyy-MM-dd')}" readonly>
+						<td><input class="date" type="text" id="date" name="date" th:value="${#calendars.format(date, 'yyyy-MM-dd')}" readonly></td>
 					</tr>
-					<tr>
+					<tr th:if="${diary != null}">
+						<td>제목</td>
+						<td><input type="text" id="title" name="title" th:value="${diary.title}"/></td>
+					</tr>
+					<tr th:unless="${diary != null}">
 						<td>제목</td>
 						<td><input type="text" id="title" name="title"/></td>
 					</tr>
-					<tr>
+					<tr th:if="${diary != null}">
 						<td colspan="2">
-							<textarea id="contents" name="contents"></textarea>
+							<textarea id="contents" name="contents" th:text="${diary.contents}"></textarea>
+						</td>
+					</tr>
+					<tr th:unless="${diary != null}">
+						<td colspan="2">
+							<textarea id="contents" name="contents" ></textarea>
 						</td>
 					</tr>
 				</table>

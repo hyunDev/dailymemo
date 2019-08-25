@@ -19,6 +19,15 @@ public class DiaryServiceImpl implements DiaryService {
     private diaryRepository diaryRepository;
 
     @Override
+    public Diary getDiary(int year, int month, int day, SecurityAccount account) throws Exception {
+        Calendar date = Calendar.getInstance();
+        date.set(year, month-1, day);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        return diaryRepository.findByIdAndDate(account.getUsername(), dateFormat.format(date.getTime()));
+    }
+
+    @Override
     public ArrayList<Diary> selectDiaryList(int year, int month, SecurityAccount account) throws Exception {
         Calendar cal = Calendar.getInstance();
         cal.set(year, month-1, 1); // 페이지 달의 1일

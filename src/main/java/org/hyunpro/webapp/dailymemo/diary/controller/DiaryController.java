@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.thymeleaf.expression.Arrays;
 
 import java.util.*;
 
@@ -52,6 +51,11 @@ public class DiaryController {
 
         HashMap<String, Integer> date = diaryService.getDate(year, month);
 
+        //전달로 가는 로직이 service에 있으므로 service로직 이후에 year, month 받기
+        ArrayList<Diary> calendar = diaryService.selectDiaryList(date.get("year"), date.get("month"), account);
+
+        mv.addObject("calendar",calendar);
+
         mv.addObject("year", date.get("year"));
         mv.addObject("month", date.get("month"));
         mv.addObject("last_day", date.get("last_day"));
@@ -68,8 +72,10 @@ public class DiaryController {
         ModelAndView mv = new ModelAndView(basicUrl+ "/diaryWrite");
 
         Calendar d = diaryService.getDate(year, month, day);
+        Diary diary = diaryService.getDiary(year, month, day, account);
 
         mv.addObject("date", d);
+        mv.addObject("diary", diary);
 
         if(account != null)
             mv.addObject("Id", account.getUsername());
@@ -83,6 +89,6 @@ public class DiaryController {
 
         diaryService.saveDiary(diary ,account);
 
-        return "redirect:" + basicUrl + "/diary";
+        return "redirect:" + basicUrl + "/diary/" + diary.getDate().substring(0,4) + "/" + diary.getDate().substring(5,7);
     }
 }

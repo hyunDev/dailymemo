@@ -50,256 +50,46 @@
                     </ul>
 
                     <!-- 첫주 -->
-                    <ul class="days" th:each="i: ${#numbers.sequence(0,0)}">
+                    <ul class="days" th:each="week: ${#numbers.sequence(0,0)}">
                         <!-- 날짜반복  -->
-                        <li th:each="j: ${#numbers.sequence(1,7)} " th:with="day=${i*7+j - #calendars.dayOfWeek(today) + 1}">
+                        <li th:each="date: ${#numbers.sequence(1,7)} " th:with="day=${week*7+date - #calendars.dayOfWeek(today) + 1}">
                             <!-- 이전달  -->
-                            <a th:if="${#calendars.dayOfWeek(today) > j}" th:href="@{|/layout/diary/diaryWrite/${year}/${month-1}/${ex_last_day + day}|}">
+                            <a th:if="${#calendars.dayOfWeek(today) > date}" th:href="@{|/layout/diary/diaryWrite/${year}/${month-1}/${ex_last_day + day}|}">
                                 <div class="date ex-date"
                                    th:text="${ex_last_day + day}"></div>
-                                <div class="event" th:if="${calendar[i*7+j-1] != null}">
-                                    <div class="event-desc" th:text="${calendar[i*7+j-1].title}"></div>
+                                <div class="event" th:if="${calendar[week*7+date-1] != null}">
+                                    <div class="event-desc" th:text="${calendar[week*7+date-1].title}"></div>
                                 </div>
                             </a>
                             <!-- 현재달  -->
-                            <a th:if="${#calendars.dayOfWeek(today) <= j}" th:href="@{|/layout/diary/diaryWrite/${year}/${month}/${day}|}">
+                            <a th:if="${#calendars.dayOfWeek(today) <= date}" th:href="@{|/layout/diary/diaryWrite/${year}/${month}/${day}|}">
                                 <div class="date"  th:text="${day}"></div>
-                                <div class="event" th:if="${calendar[i*7+j-1] != null}">
-                                    <div class="event-desc" th:text="${calendar[i*7+j-1].title}"></div>
+                                <div class="event" th:if="${calendar[week*7+date-1] != null}">
+                                    <div class="event-desc" th:text="${calendar[week*7+date-1].title}"></div>
                                 </div>
                             </a>
                         </li>
                     </ul>
                     <!-- 2~6주 -->
-                    <ul class="days" th:each="i: ${#numbers.sequence(1,5)}">
-                        <li th:each="j: ${#numbers.sequence(1,7)}" th:with="day=${i*7+j - #calendars.dayOfWeek(today) + 1}">
+                    <ul class="days" th:each="week: ${#numbers.sequence(1,5)}">
+                        <li th:each="date: ${#numbers.sequence(1,7)}" th:with="day=${week*7+date - #calendars.dayOfWeek(today) + 1}">
                             <!-- 현재달  -->
                             <a th:if="${day <= last_day}" th:href="@{|/layout/diary/diaryWrite/${year}/${month}/${day}|}">
                                 <div class="date"  th:text="${day}"></div>
-                                <div class="event" th:if="${calendar[i*7+j-1] != null}">
-                                    <div class="event-desc" th:text="${calendar[i*7+j-1].title}"></div>
+                                <div class="event" th:if="${calendar[week*7+date-1] != null}">
+                                    <div class="event-desc" th:text="${calendar[week*7+date-1].title}"></div>
                                 </div>
                             </a>
                             <!-- 다음달  -->
                             <a th:if="${day > last_day}" th:href="@{|/layout/diary/diaryWrite/${year}/${month+1}/${day - last_day}|}">
                                 <div class="date ex-date"
                                    th:text="${day - last_day}"></div>
-                                <div class="event" th:if="${calendar[i*7+j-1] != null}">
-                                    <div class="event-desc" th:text="${calendar[i*7+j-1].title}"></div>
+                                <div class="event" th:if="${calendar[week*7+date-1] != null}">
+                                    <div class="event-desc" th:text="${calendar[week*7+date-1].title}"></div>
                                 </div>
                             </a>
                         </li>
                     </ul>
-                    <!--
-
-                                        <ul class="days">
-                                            <li class="day other-month">
-                                                <div class="date">27</div>
-                                            </li>
-                                            <li class="day other-month">
-                                                <div class="date">28</div>
-                                                <div class="event">
-                                                    <div class="event-desc">
-                                                        HTML 5 lecture with Brad Traversy from Eduonix
-                                                    </div>
-                                                    <div class="event-time">
-                                                        1:00pm to 3:00pm
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="day other-month">
-                                                <div class="date">29</div>
-                                            </li>
-                                            <li class="day other-month">
-                                                <div class="date">30</div>
-                                            </li>
-                                            <li class="day other-month">
-                                                <div class="date">31</div>
-                                            </li>
-
-                                            &lt;!&ndash; Days in current month &ndash;&gt;
-
-                                            <li th:if="${#calendars.dayOfWeek(date) == 2}">
-                                                2가 월욜
-                                            </li>
-                                            <li class="day">
-                                                <div class="date" th:text="${#calendars.dayOfWeekName(date)}">1</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">2</div>
-                                                <div class="event">
-                                                    <div class="event-desc">
-                                                        Career development @ Community College room #402
-                                                    </div>
-                                                    <div class="event-time">
-                                                        2:00pm to 5:00pm
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-
-                                        &lt;!&ndash; Row #2 &ndash;&gt;
-
-                                        <ul class="days">
-                                            <li class="day">
-                                                <div class="date">3</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">4</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">5</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">6</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">7</div>
-                                                <div class="event">
-                                                    <div class="event-desc">
-                                                        Group Project meetup
-                                                    </div>
-                                                    <div class="event-time">
-                                                        6:00pm to 8:30pm
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">8</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">9</div>
-                                            </li>
-                                        </ul>
-
-                                        &lt;!&ndash; Row #3 &ndash;&gt;
-
-                                        <ul class="days">
-                                            <li class="day">
-                                                <div class="date">10</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">11</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">12</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">13</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">14</div><div class="event">
-                                                <div class="event-desc">
-                                                    Board Meeting
-                                                </div>
-                                                <div class="event-time">
-                                                    1:00pm to 3:00pm
-                                                </div>
-                                            </div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">15</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">16</div>
-                                            </li>
-                                        </ul>
-
-                                        &lt;!&ndash; Row #4 &ndash;&gt;
-
-                                        <ul class="days">
-                                            <li class="day">
-                                                <div class="date">17</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">18</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">19</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">20</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">21</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">22</div>
-                                                <div class="event">
-                                                    <div class="event-desc">
-                                                        Conference call
-                                                    </div>
-                                                    <div class="event-time">
-                                                        9:00am to 12:00pm
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">23</div>
-                                            </li>
-                                        </ul>
-
-                                        &lt;!&ndash; Row #5 &ndash;&gt;
-
-                                        <ul class="days">
-                                            <li class="day">
-                                                <div class="date">24</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">25</div>
-                                                <div class="event">
-                                                    <div class="event-desc">
-                                                        Conference Call
-                                                    </div>
-                                                    <div class="event-time">
-                                                        1:00pm to 3:00pm
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">26</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">27</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">28</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">29</div>
-                                            </li>
-                                            <li class="day">
-                                                <div class="date">30</div>
-                                            </li>
-                                        </ul>
-
-                                        &lt;!&ndash; Row #6 &ndash;&gt;
-
-                                        <ul class="days">
-                                            <li class="day">
-                                                <div class="date">31</div>
-                                            </li>
-                                            <li class="day other-month">
-                                                <div class="date">1</div> &lt;!&ndash; Next Month &ndash;&gt;
-                                            </li>
-                                            <li class="day other-month">
-                                                <div class="date">2</div>
-                                            </li>
-                                            <li class="day other-month">
-                                                <div class="date">3</div>
-                                            </li>
-                                            <li class="day other-month">
-                                                <div class="date">4</div>
-                                            </li>
-                                            <li class="day other-month">
-                                                <div class="date">5</div>
-                                            </li>
-                                            <li class="day other-month">
-                                                <div class="date">6</div>
-                                            </li>
-                                        </ul>
-                    -->
-
                 </div><!-- /. calendar -->
             </div><!-- /. wrap -->
         </div>
