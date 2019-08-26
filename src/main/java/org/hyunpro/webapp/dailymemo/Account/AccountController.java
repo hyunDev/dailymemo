@@ -16,6 +16,11 @@ public class AccountController {
     @Autowired
     AccountService accountService;
 
+    @RequestMapping(value="/login", method = RequestMethod.GET)
+    public String login(){
+        return "/login";
+    }
+
     @RequestMapping(value="/create", method = RequestMethod.POST)
     public String create(Account account, HttpServletRequest httpServletRequest) throws Exception{
         accountService.saveAccount(account, httpServletRequest);
