@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+</head>
+<body>
+<div class="login-page">
+    <div class="form">
+        <form id="frm" th:action="@{/member/findPw}" class="login-form" method="post">
+            <input type="hidden" id="checkPw" value="unchecked" />
+            <input type="hidden" id="checkId" value="unchecked" />
+            <table>
+                <tr>
+                    <td class="label">아이디</td>
+                    <td class="content"><input type="text" id="id" name="id" placeholder="ID"/></td>
+                </tr>
+                <tr>
+                    <td class="label">이메일</td>
+                    <td class="content"><input type="text" id="email" name="email" placeholder="email" onchange="isSame()"/></td>
+                </tr>
+            </table>
+            <button type="submit" id="signUp" class="submit" >비밀번호 찾기</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+

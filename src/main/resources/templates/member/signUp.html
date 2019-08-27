@@ -7,7 +7,9 @@
 <body>
 <div class="login-page">
     <div class="form">
-        <form class="login-form" th:action="@{/create}" method="post" onsubmit="return false;">
+        <form id="frm" th:action="@{/create}" class="login-form" method="post">
+            <input type="hidden" id="checkPw" value="unchecked" />
+            <input type="hidden" id="checkId" value="unchecked" />
             <table>
                 <tr>
                     <td class="label">아이디</td>
@@ -16,14 +18,14 @@
                 <tr>
                     <td class="label"></td>
                     <td class="content">
-                        <button class="btn" name="check_id" id="check_id">
-                            아이디 중복확인
+                        <button type="button" class="btn" name="check_id" id="check_id" onclick="idCheck()">
+                            아이디 중복 확인
                         </button>
                     </td>
                 </tr>
                 <tr>
                     <td class="label">이메일</td>
-                    <td class="content"><input type="text" id="email" name="email" placeholder="Password" onchange="isSame()"/></td>
+                    <td class="content"><input type="text" id="email" name="email" placeholder="email" onchange="isSame()"/></td>
                 </tr>
                 <tr>
                     <td class="label">비밀번호</td>
@@ -38,7 +40,7 @@
                     <td><span id="same"></span></td>
                 </tr>
             </table>
-            <input type="submit" class="submit" value="회원가입">
+            <button type="button" id="signUp" class="submit" onclick="admit()" >회원가입</button>
         </form>
     </div>
 </div>
@@ -50,14 +52,16 @@
             if(pw == confirmPw){
                 document.getElementById('same').innerHTML = '비밀번호가 일치합니다';
                 document.getElementById('same').style.color = 'blue';
+                $('#checkPw').val("checked");
             }
             else{
                 document.getElementById('same').innerHTML = '비밀번호가 일치하지 않습니다';
                 document.getElementById('same').style.color = 'red';
+                $('#checkPw').val("unchecked");
             }
         }
     }
-    $("#check_id").on("click", function(){
+    function idCheck(){
         var input_id = $('#id').val();
 
         if(input_id == "")
@@ -71,14 +75,28 @@
                 success : function(data) {
                     if(data == true){
                         alert("사용가능한 아이디 입니다.");
+                        $('#checkId').val("checked");
                     }
                     else{
                         alert("이미 사용하고 있는 아이디입니다.");
+                        $('#checkId').val("unchecked");
                     }
                 }
             });
         }
-    });
+    }
+    function admit(){
+        if( $('#checkId').val() != "checked" ){
+            alert("아이디 중복확인을 해주세요");
+        }
+        else if( $('#checkPw').val() != "checked"){
+            alert("비밀번호가 일치하지 않습니다");
+        }
+        else{
+            $('#frm').submit();
+        }
+    }
 </script>
 </body>
 </html>
+

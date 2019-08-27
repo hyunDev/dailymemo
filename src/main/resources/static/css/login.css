@@ -64,7 +64,7 @@ a{
     display: none;
 }
 
-.check_id{
+.check-box{
     width:17px !important;
     height:17px !important;
     margin: 0px 5px 0px !important;
@@ -75,13 +75,13 @@ a{
     text-transform: uppercase;
     outline: 0;
     background: #7D7F82;
-    width: 100%;
+    width: 80%;
     border: 0;
     padding: 15px;
     color: #FFFFFF;
     font-size: 14px;
     cursor: pointer;
-    margin-top:5px;
+    margin-bottom: 10px;
     font-weight: bold;
 }
 body {

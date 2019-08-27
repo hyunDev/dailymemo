@@ -1,7 +1,6 @@
 package org.hyunpro.webapp.dailymemo.board.controller;
 
 import org.apache.commons.io.FileUtils;
-import org.hyunpro.webapp.dailymemo.Account.AccountService;
 import org.hyunpro.webapp.dailymemo.Account.SecurityAccount;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardEntity;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardFileEntity;
@@ -24,15 +23,14 @@ import java.util.List;
 @Controller
 public class JpaBoardController {
 
+    private String basicUrl = "/layout/board";
+
     @Autowired
     private JpaBoardService jpaBoardService;
 
-    @Autowired
-    private AccountService accountService;
-
     @RequestMapping(value="/", method = RequestMethod.GET)
     public ModelAndView openIndex(@AuthenticationPrincipal  SecurityAccount account) throws Exception{
-        ModelAndView mv = new ModelAndView("/layout/board/jpaboardList");
+        ModelAndView mv = new ModelAndView(basicUrl + "/jpaboardList");
 
         List<BoardEntity> list = jpaBoardService.selectBoardList();
         mv.addObject("list", list);
@@ -44,7 +42,7 @@ public class JpaBoardController {
 
     @RequestMapping(value="/layout/board/list", method=RequestMethod.GET)
     public ModelAndView openBoardList(@AuthenticationPrincipal  SecurityAccount account) throws Exception{
-        ModelAndView mv = new ModelAndView("/layout/board/jpaboardList");
+        ModelAndView mv = new ModelAndView(basicUrl + "/jpaboardList");
 
         List<BoardEntity> list = jpaBoardService.selectBoardList();
         mv.addObject("list", list);
@@ -57,7 +55,7 @@ public class JpaBoardController {
 
     @RequestMapping(value="/layout/board/write", method=RequestMethod.GET)
     public ModelAndView openBoardWrite(@AuthenticationPrincipal  SecurityAccount account) throws Exception{
-        ModelAndView mv = new ModelAndView("/layout/board/jpaBoardWrite");
+        ModelAndView mv = new ModelAndView(basicUrl + "/jpaBoardWrite");
         if(account != null)
             mv.addObject("Id", account.getUsername());
 
@@ -67,12 +65,12 @@ public class JpaBoardController {
     @RequestMapping(value="/layout/board/write", method=RequestMethod.POST)
     public String writeBoard(BoardEntity board, MultipartHttpServletRequest multipartHttpServletRequest, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
         jpaBoardService.saveBoard(board, multipartHttpServletRequest, account);
-        return "redirect:/layout/board/list";
+        return "redirect:" + basicUrl + "/list";
     }
 
     @RequestMapping(value="/layout/board/detail/{boardIdx}", method=RequestMethod.GET)
     public ModelAndView openBoardDetail(@PathVariable("boardIdx") int boardIdx, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
-        ModelAndView mv = new ModelAndView("/layout/board/jpaBoardDetail");
+        ModelAndView mv = new ModelAndView(basicUrl + "/jpaBoardDetail");
 
         BoardEntity board = jpaBoardService.selectBoardDetail(boardIdx, "detail");
         mv.addObject("board", board);
@@ -83,7 +81,7 @@ public class JpaBoardController {
 
     @RequestMapping(value="/layout/board/modify/{boardIdx}", method=RequestMethod.GET)
     public ModelAndView openBoardModify(@PathVariable("boardIdx") int boardIdx, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
-        ModelAndView mv = new ModelAndView("/layout/board/jpaBoardModify");
+        ModelAndView mv = new ModelAndView(basicUrl + "/jpaBoardModify");
 
         BoardEntity board = jpaBoardService.selectBoardDetail(boardIdx, "modify");
         mv.addObject("board", board);
