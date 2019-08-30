@@ -14,6 +14,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @Data
 public class BoardEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int boardIdx;

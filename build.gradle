@@ -46,6 +46,5 @@ dependencies {
     compile "org.springframework:spring-context-support"
     compile "com.sun.mail:javax.mail"
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor' // @configuration 가능하게
-
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

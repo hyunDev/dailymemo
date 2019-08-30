@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<th:block th:replace="fragments/common/loginHeader"></th:block>
+<body>
+<div class="login-page">
+    <div class="form">
+        <form id="frm" action="#" class="login-form" method="post">
+            <input type="hidden" id="checkPw" value="unchecked" />
+            <table>
+                <tr>
+                    <td class="label">아이디</td>
+                    <td class="content"><input type="text" id="id" name="id" placeholder="ID" th:value="${Id}" readonly/></td>
+                </tr>
+                <tr>
+                    <td class="label">기존 비밀번호</td>
+                    <td class="content"><input type="password" id="ex_password" name="ex_password" placeholder="Password"/></td>
+                </tr>
+                <tr>
+                    <td class="label">새로운 비밀번호</td>
+                    <td class="content"><input type="password" id="password" name="password" placeholder="New-Password" onchange="isSame()"/></td>
+                </tr>
+                <tr>
+                    <td class="label">새로운 비밀번호 확인</td>
+                    <td class="content"><input type="password" id="password2" name="password2" placeholder="New-PW-Confirm" onchange="isSame()"/></td>
+                </tr>
+                <tr>
+                    <td style="width: 15%;"></td>
+                    <td><span id="same"></span></td>
+                </tr>
+            </table>
+            <input type="button" id="signUp" class="submit" onclick="check()" value="비밀번호 변경"/>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    function check(){
+        if( $('#checkPw').val() != "checked"){
+            alert("비밀번호가 일치하지 않습니다");
+        }
+        else{
+            changePw();
+        }
+    }
+    function changePw(){
+        var input_id = $('#id').val();
+
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        if(input_id == "")
+            alert("아이디를 입력해주세요");
+        else{
+            $.ajax({
+                data : {
+                    id : input_id
+                    ,password : $("#password").val()
+                    ,ex_password : $("#ex_password").val()
+                }
+                ,beforeSend : function(xhr){
+                    xhr.setRequestHeader(header, token);
+                }
+                ,url : "/member/changePw"
+                ,type : "POST"
+                ,success : function(data) {
+
+                    if(data == true){
+                        alert("비밀번호가 변경되었습니다.");
+                        location.href = "../";
+                    }
+                    else{
+                        alert("기존 비밀번호를 확인해주세요");
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>
+

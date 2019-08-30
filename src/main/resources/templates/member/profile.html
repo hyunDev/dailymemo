@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-<th:block th:replace="fragments/common/loginHeader"></th:block>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+</head>
 <body>
 <div class="login-page">
     <div class="form">
@@ -10,27 +13,23 @@
             <table>
                 <tr>
                     <td class="label">아이디</td>
-                    <td class="content"><input type="text" id="id" name="id" placeholder="ID"/></td>
-                </tr>
-                <tr>
-                    <td class="label"></td>
-                    <td class="content">
-                        <button type="button" class="btn" name="check_id" id="check_id" onclick="idCheck()">
-                            아이디 중복 확인
-                        </button>
-                    </td>
+                    <td class="content"><input type="text" id="id" name="id" placeholder="ID" readonly/></td>
                 </tr>
                 <tr>
                     <td class="label">이메일</td>
                     <td class="content"><input type="text" id="email" name="email" placeholder="email"/></td>
                 </tr>
                 <tr>
-                    <td class="label">비밀번호</td>
-                    <td class="content"><input type="password" id="password" name="password" placeholder="Password" onchange="isSame()"/></td>
+                    <td class="label">기존 비밀번호</td>
+                    <td class="content"><input type="password" id="ex_password" name="ex_password" placeholder="Password"/></td>
                 </tr>
                 <tr>
-                    <td class="label">비밀번호 확인</td>
-                    <td class="content"><input type="password" id="password2" name="password2" placeholder="PW-Confirm" onchange="isSame()"/></td>
+                    <td class="label">새로운 비밀번호</td>
+                    <td class="content"><input type="password" id="password" name="password" placeholder="New-Password" onchange="isSame()"/></td>
+                </tr>
+                <tr>
+                    <td class="label">새로운 비밀번호 확인</td>
+                    <td class="content"><input type="password" id="password2" name="password2" placeholder="New-PW-Confirm" onchange="isSame()"/></td>
                 </tr>
                 <tr>
                     <td style="width: 15%;"></td>
@@ -42,6 +41,22 @@
     </div>
 </div>
 <script type="text/javascript">
+    function isSame() {
+        var pw = $('#password').val();
+        var confirmPw = $('#password2').val();
+        if(pw !='' && confirmPw !=''){
+            if(pw == confirmPw){
+                document.getElementById('same').innerHTML = '비밀번호가 일치합니다';
+                document.getElementById('same').style.color = 'blue';
+                $('#checkPw').val("checked");
+            }
+            else{
+                document.getElementById('same').innerHTML = '비밀번호가 일치하지 않습니다';
+                document.getElementById('same').style.color = 'red';
+                $('#checkPw').val("unchecked");
+            }
+        }
+    }
     function idCheck(){
         var input_id = $('#id').val();
 

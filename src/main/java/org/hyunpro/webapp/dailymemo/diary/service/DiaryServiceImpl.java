@@ -31,7 +31,10 @@ public class DiaryServiceImpl implements DiaryService {
     public ArrayList<Diary> selectDiaryList(int year, int month, SecurityAccount account) throws Exception {
         Calendar cal = Calendar.getInstance();
         cal.set(year, month-1, 1); // 페이지 달의 1일
-        cal.add(Calendar.DATE, -cal.get(Calendar.DAY_OF_WEEK)); // 일요일 부터 시작하는 날짜로 돌아감
+        //뷰페이지에 나타나는 첫주의 일요일 부터 일기를 가져오기 위해
+        //일요일 부터 시작하는 날짜로 돌아감, -cal.get(Calendar.DAY_OF_WEEK)은 현재 요일값
+        // 1일이 수요일 이면 3을 빼서 3일전으로 돌아간다.
+        cal.add(Calendar.DATE, -cal.get(Calendar.DAY_OF_WEEK));
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 

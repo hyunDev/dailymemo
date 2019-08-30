@@ -84,6 +84,11 @@ a{
     margin-bottom: 10px;
     font-weight: bold;
 }
+
+.error{
+    color : darkred;
+    margin-bottom : 5px;
+}
 body {
     background: #76b852; /* fallback for old browsers */
     background: -webkit-linear-gradient(right, #76b852, #8DC26F);

@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" th:href="@{/css/login.css}"/>
-</head>
+<th:block th:replace="fragments/common/loginHeader"></th:block>
 <body>
 <div class="login-page">
     <div class="form">
-        <form id="frm" th:action="@{/member/findPw}" class="login-form" method="post">
+        <form id="frm" class="login-form" method="post">
             <input type="hidden" id="checkPw" value="unchecked" />
             <input type="hidden" id="checkId" value="unchecked" />
             <table>
@@ -17,13 +14,51 @@
                 </tr>
                 <tr>
                     <td class="label">이메일</td>
-                    <td class="content"><input type="text" id="email" name="email" placeholder="email" onchange="isSame()"/></td>
+                    <td class="content"><input type="text" id="email" name="email" placeholder="email"/></td>
                 </tr>
             </table>
-            <button type="submit" id="signUp" class="submit" >비밀번호 찾기</button>
+            <input type="button" id="signUp" class="submit" onclick="findPw()" value="비밀번호 찾기"/>
+            <a class="submit" th:href="@{/login}">로그인</a>
         </form>
     </div>
 </div>
+<script>
+    function findPw(){
+        var input_id = $('#id').val();
+        var email = $('#email').val();
+
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        if(input_id == "")
+            alert("아이디를 입력해주세요");
+        else if(email == "")
+            alert("이메일을 입력해주세요");
+        else{
+            $.ajax({
+                data : {
+                    "id" : input_id
+                    ,"email" : email
+                }
+                ,url : "/member/findPw"
+                ,type : "POST"
+                /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+                ,beforeSend : function(xhr){
+                    xhr.setRequestHeader(header, token);
+                }
+                ,success : function(data) {
+                    if(data == true){
+                        alert("이메일로 임시비밀번호가 발송되었습니다.");
+                        location.href = "../login";
+                    }
+                    else{
+                        alert("임시비밀번호 발송을 실패했습니다. 입력한 메일을 확인해주세요.");
+                    }
+                }
+            });
+        }
+    }
+</script>
 </body>
 </html>
 

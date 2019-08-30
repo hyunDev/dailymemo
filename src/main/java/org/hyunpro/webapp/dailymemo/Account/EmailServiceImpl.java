@@ -10,7 +10,7 @@ public class EmailServiceImpl {
     public void setJavaMailSender(JavaMailSender javaMailSender){
         this.emailSender=javaMailSender;
     }
-    public void sendSimpleMessage(String to, String subject, String text) {
+    public boolean sendSimpleMessage(String to, String subject, String text) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);//보낼 대상
@@ -18,8 +18,10 @@ public class EmailServiceImpl {
         message.setText(text);//내용
         try{//예외처리
             emailSender.send(message);
+            return true;
         }catch(MailException es){
             es.printStackTrace();
+            return false;
         }
     }
 }

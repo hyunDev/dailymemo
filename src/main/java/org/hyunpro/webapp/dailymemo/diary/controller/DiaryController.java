@@ -30,14 +30,14 @@ public class DiaryController {
 
         HashMap<String, Integer> date = diaryService.getDate();
 
+        //일기
         ArrayList<Diary> calendar = diaryService.selectDiaryList(date.get("year"), date.get("month"), account);
 
-
-        mv.addObject("year", date.get("year"));
         mv.addObject("calendar",calendar);
-        mv.addObject("month", date.get("month"));
-        mv.addObject("last_day", date.get("last_day"));
-        mv.addObject("ex_last_day", date.get("ex_last_day"));
+        mv.addObject("year", date.get("year")); //현재년
+        mv.addObject("month", date.get("month")); //현재월
+        mv.addObject("last_day", date.get("last_day"));//현재달 마지막 날짜
+        mv.addObject("ex_last_day", date.get("ex_last_day"));//이전달 마지막 날짜
 
         if(account != null)
             mv.addObject("Id", account.getUsername());

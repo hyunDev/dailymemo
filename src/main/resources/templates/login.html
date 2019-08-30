@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" th:href="@{/css/login.css}"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script th:src="@{/js/login.js}"></script>
-</head>
+<th:block th:replace="fragments/common/loginHeader"></th:block>
 <body>
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
+
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
@@ -19,6 +13,9 @@
             <input type="password" name="password" placeholder="Password"/>
             <input type="checkbox" name="check_id" id="check_id" class="check-box"/>아이디 기억하기
             <input class="submit" type="submit" value="로그인">
+            <div class="error" th:if="${param.error}">
+                아이디 또는 비밀번호가 틀렸습니다.
+            </div>
             <a class="submit" th:href="@{/member/findPw}">비밀번호 찾기</a>
             <a class="submit" th:href="@{/member/signUp}">회원가입</a>
         </form>

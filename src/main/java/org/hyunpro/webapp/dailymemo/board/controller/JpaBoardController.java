@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -92,7 +93,6 @@ public class JpaBoardController {
 
     @RequestMapping(value="/layout/board/modify", method=RequestMethod.POST)
     public String updateBoard(BoardEntity board,  @AuthenticationPrincipal SecurityAccount account) throws Exception{
-        System.out.println("modify입니다");
         jpaBoardService.updateBoard(board, null, account);
         return "redirect:/layout/board/list";
     }

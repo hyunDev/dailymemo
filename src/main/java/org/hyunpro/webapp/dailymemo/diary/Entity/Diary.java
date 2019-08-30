@@ -30,6 +30,8 @@ public class Diary {
 
     private String contents;
 
+    private String password;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdDatetime = LocalDateTime.now();
 
