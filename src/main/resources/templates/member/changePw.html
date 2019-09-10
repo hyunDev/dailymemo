@@ -32,7 +32,7 @@
         </form>
     </div>
 </div>
-<script type="text/javascript">
+<script th:inline="javascript">
     function check(){
         if( $('#checkPw').val() != "checked"){
             alert("비밀번호가 일치하지 않습니다");
@@ -44,9 +44,8 @@
     function changePw(){
         var input_id = $('#id').val();
 
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-
+        var header = /*[[${_csrf.headerName}]]*/;
+        var token = /*[[${_csrf.token}]]*/;
         if(input_id == "")
             alert("아이디를 입력해주세요");
         else{
