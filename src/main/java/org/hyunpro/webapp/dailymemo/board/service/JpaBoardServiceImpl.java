@@ -1,21 +1,18 @@
 package org.hyunpro.webapp.dailymemo.board.service;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
 import org.hyunpro.webapp.dailymemo.Account.SecurityAccount;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardEntity;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardFileEntity;
 import org.hyunpro.webapp.dailymemo.board.repository.JpaBoardRepository;
-
 import org.hyunpro.webapp.dailymemo.common.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service

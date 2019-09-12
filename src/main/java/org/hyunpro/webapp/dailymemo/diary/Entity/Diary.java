@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.Collection;
 
 @Entity
 @Table(name="Diary")
@@ -35,4 +33,7 @@ public class Diary {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdDatetime = LocalDateTime.now();
 
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, mappedBy = "diary")
+    @org.hibernate.annotations.ForeignKey(name = "none")
+    private Collection<DiaryFileEntity> fileList;
 }

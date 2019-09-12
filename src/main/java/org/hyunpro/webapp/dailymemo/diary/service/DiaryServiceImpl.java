@@ -1,11 +1,16 @@
 package org.hyunpro.webapp.dailymemo.diary.service;
 
 import org.hyunpro.webapp.dailymemo.Account.SecurityAccount;
+
+import org.hyunpro.webapp.dailymemo.common.FileUtilsImage;
 import org.hyunpro.webapp.dailymemo.diary.Entity.Diary;
+import org.hyunpro.webapp.dailymemo.diary.Entity.DiaryFileEntity;
 import org.hyunpro.webapp.dailymemo.diary.repository.diaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.thymeleaf.expression.Arrays;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -17,6 +22,9 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Autowired
     private diaryRepository diaryRepository;
+
+    @Autowired
+    FileUtilsImage fileUtilsImage;
 
     @Override
     public Diary getDiary(int year, int month, int day, SecurityAccount account) throws Exception {
@@ -123,7 +131,19 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public void saveDiary(Diary diary, SecurityAccount account) throws Exception {
         diary.setId(account.getUsername());
-        System.out.println(diary.getId() + "---" +diary.getDate());
+        diaryRepository.save(diary);
+    }
+
+    @Override
+    public void saveDiary(Diary diary, SecurityAccount account, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+        diary.setId(account.getUsername());
+
+        List<DiaryFileEntity> list = fileUtilsImage.parseFileInfo(multipartHttpServletRequest);
+
+        if(CollectionUtils.isEmpty(list) == false){
+            diary.setFileList(list);
+        }
+
         diaryRepository.save(diary);
     }
 }

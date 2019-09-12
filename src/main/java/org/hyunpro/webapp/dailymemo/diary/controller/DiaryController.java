@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
@@ -90,5 +91,10 @@ public class DiaryController {
         diaryService.saveDiary(diary ,account);
 
         return "redirect:" + basicUrl + "/diary/" + diary.getDate().substring(0,4) + "/" + diary.getDate().substring(5,7);
+    }
+
+    @RequestMapping(value="/uploadImage", method = RequestMethod.POST)
+    public void uploadImage(Diary diary, @AuthenticationPrincipal  SecurityAccount account,MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
+        diaryService.saveDiary(diary, account, multipartHttpServletRequest);
     }
 }
