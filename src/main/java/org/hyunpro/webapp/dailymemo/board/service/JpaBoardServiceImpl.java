@@ -3,13 +3,16 @@ package org.hyunpro.webapp.dailymemo.board.service;
 import org.hyunpro.webapp.dailymemo.Account.SecurityAccount;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardEntity;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardFileEntity;
+import org.hyunpro.webapp.dailymemo.board.entity.Reply;
 import org.hyunpro.webapp.dailymemo.board.repository.JpaBoardRepository;
+import org.hyunpro.webapp.dailymemo.board.repository.JpaReplyRepository;
 import org.hyunpro.webapp.dailymemo.common.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +23,9 @@ public class JpaBoardServiceImpl implements JpaBoardService{
 
     @Autowired
     JpaBoardRepository jpaBoardRepository;
+
+    @Autowired
+    JpaReplyRepository jpaReplyRepository;
 
     @Autowired
     FileUtils fileUtils;
@@ -46,6 +52,19 @@ public class JpaBoardServiceImpl implements JpaBoardService{
 
 
         jpaBoardRepository.update(board.getContents(), board.getTitle(), board.getUpdatedDatetime(), board.getBoardIdx(), account.getUsername());
+    }
+
+    @Override
+    public void saveReply(Reply reply, SecurityAccount account) throws Exception {
+        reply.setCreatorId(account.getUsername());
+
+        jpaReplyRepository.save(reply);
+    }
+
+    @Override
+    public List<Reply> getReplyList(int boardIdx) throws Exception {
+        List<Reply> replyList = jpaReplyRepository.findAllById(boardIdx);
+        return replyList;
     }
 
     @Override

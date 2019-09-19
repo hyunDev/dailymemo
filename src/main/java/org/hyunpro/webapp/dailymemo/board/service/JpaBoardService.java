@@ -5,6 +5,7 @@ import java.util.List;
 import org.hyunpro.webapp.dailymemo.Account.SecurityAccount;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardEntity;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardFileEntity;
+import org.hyunpro.webapp.dailymemo.board.entity.Reply;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 
@@ -15,6 +16,10 @@ public interface JpaBoardService {
     void saveBoard(BoardEntity board, MultipartHttpServletRequest multipartHttpServletRequest, SecurityAccount account) throws Exception;
 
     void updateBoard(BoardEntity board, MultipartHttpServletRequest multipartHttpServletRequest, SecurityAccount account) throws Exception;
+
+    void saveReply(Reply reply, SecurityAccount account) throws Exception;
+
+    List<Reply> getReplyList(int boardIdx) throws Exception;
 
     BoardEntity selectBoardDetail(int boardIdx, String mode) throws Exception;
 

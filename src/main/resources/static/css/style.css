@@ -35,10 +35,11 @@ caption {display:none; width:0; height:0; margin-top:-1px; overflow:hidden; visi
 .board_detail tbody th, .board_detail tbody td {padding:10px 15px; border-bottom:1px solid #ccc;}
 .board_detail tbody textarea {width:100%; min-height:170px}
 .board_detail .readonly{border : unset}
-
+#replyForm #reply{font-size: 18px; width: 89%; margin-right: 1%;}
 .btn {margin:5px; padding:5px 11px; color:#fff !important; display:inline-block; background-color:#7D7F82; vertical-align:middle; border-radius:0 !important; cursor:pointer; border:none;}
 .btn:hover {background: #6b9ab8;}
-
+.replyTextarea{width:80%; min-height:80px}
+.replyTable{width : 100%;}
 .file_list a {display:inherit !important;}
 .date{border : 0px;  }
 

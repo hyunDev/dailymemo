@@ -24,7 +24,7 @@
 					<tbody>
 						<tr>
 							<th scope="row">글 번호</th>
-							<td th:text="${board.boardIdx }"></td>
+							<td th:text="${board.boardIdx}"></td>
 							<th scope="row">조회수</th>
 							<td th:text="${board.hitCnt }"></td>
 						</tr>
@@ -46,7 +46,7 @@
 					</tbody>
 				</table>
 
-				<input type="hidden" id="boardIdx" name="boardIdx" th:value="${board.boardIdx }">
+				<input type="hidden" id="boardIdx" name="boardIdx" th:value="${board.boardIdx}">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <div class="file_list">
                     <a th:each="list : ${board.fileList}" th:href="@{/layout/board/file(idx=${list.idx}, boardIdx=${board.boardIdx})}" th:text="|${list.originalFileName} ($(#numbers.formatInteger(list.fileSize/1000,1,'DEFAULT')} kb)|"></a>
@@ -56,8 +56,32 @@
                 <a href="#this" id="edit" class="btn">수정하기</a>
                 <input class="btn" id="del" type="submit" value="삭제하기"/>
 			</form>
-
-
+			<div class="replyWrite">
+				<form id="reply">
+					<textarea type="text" class="replyTextarea" id="replyContents" name="replyContents" placeholder="댓글쓰기"></textarea>
+					<button id="replyBtn" class="btn" type="button">댓글쓰기</button>
+				</form>
+			</div>
+			<div id="listReply">
+				<table class="replyTable">
+					<colgroup>
+						<col width="10%"/>
+						<col width="60%"/>
+						<col width="15%"/>
+						<col width="7.5%"/>
+						<col width="7.5%"/>
+					</colgroup>
+					<tbody>
+						<tr th:each="list: ${list}">
+							<th th:text="${list.creatorId}"></th>
+							<td th:text="${list.contents}"></td>
+							<td th:text="${list.createdDatetime}"></td>
+							<td><button type="button" class="btn">수정하기</button></td>
+							<td><button type="button" class="btn">댓글달기</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>
@@ -80,6 +104,33 @@
 		$("#edit").on("click", function(){
 			location.href = "/layout/board/modify/" + boardIdx;
 		});
+	});
+
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+
+	$("#replyBtn").on("click", function(){
+		var boardIdx = $("#boardIdx").val();
+
+		var param = "contents=" + $("#replyContents").val() +"&bno=" + boardIdx;
+
+		$.ajax({
+			data : param
+			,dataType : 'json'
+			,type : "POST"
+			,url :  "/layout/board/insertReply"
+			,beforeSend : function(xhr){
+				xhr.setRequestHeader(header, token);
+			}
+			,success : function(data){
+				alert(data);
+				if(data == "true")
+					alert("댓글 등록 완료!");
+			}
+			,error:function(request,status,error) {
+				//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+			}
+		})
 	});
 </script>
 </body>

@@ -4,17 +4,19 @@ import org.apache.commons.io.FileUtils;
 import org.hyunpro.webapp.dailymemo.Account.SecurityAccount;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardEntity;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardFileEntity;
+import org.hyunpro.webapp.dailymemo.board.entity.Reply;
 import org.hyunpro.webapp.dailymemo.board.service.JpaBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.File;
 import java.net.URLEncoder;
 import java.util.List;
@@ -68,12 +70,24 @@ public class JpaBoardController {
         return "redirect:" + basicUrl + "/list";
     }
 
+
+    @ResponseBody
+    @RequestMapping(value="/layout/board/insertReply", method = RequestMethod.POST)
+    public String insertReply(@ModelAttribute @Valid Reply reply, BindingResult result, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
+        jpaBoardService.saveReply(reply,  account);
+        return "true";
+    }
+
     @RequestMapping(value="/layout/board/detail/{boardIdx}", method=RequestMethod.GET)
     public ModelAndView openBoardDetail(@PathVariable("boardIdx") int boardIdx, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
         ModelAndView mv = new ModelAndView(basicUrl + "/jpaBoardDetail");
 
         BoardEntity board = jpaBoardService.selectBoardDetail(boardIdx, "detail");
+        List<Reply> list = jpaBoardService.getReplyList(boardIdx);
+
         mv.addObject("board", board);
+        mv.addObject("list", list);
+
         if(account != null)
             mv.addObject("Id", account.getUsername());
         return mv;
