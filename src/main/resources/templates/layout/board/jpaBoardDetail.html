@@ -73,11 +73,17 @@
 					</colgroup>
 					<tbody>
 						<tr th:each="list: ${list}">
-							<th th:text="${list.creatorId}"></th>
-							<td th:text="${list.contents}"></td>
-							<td th:text="${list.createdDatetime}"></td>
-							<td><button type="button" class="btn">수정하기</button></td>
-							<td><button type="button" class="btn">댓글달기</button></td>
+							<form action="#">
+								<input type="hidden" value="${list.creatorId}">
+								<input type="hidden" value="${list.contents}">
+								<input type="hidden" value="${list.createdDatetime}">
+								<th th:text="${list.creatorId}"></th>
+								<td th:text="${list.contents}"></td>
+								<td th:text="${list.createdDatetime}"></td>
+								<td><button type="submit" class="btn">수정하기</button></td>
+								<td><button type="button" class="btn">삭제하기</button></td>
+								<td><button type="button" class="btn">댓글달기</button></td>
+							</form>
 						</tr>
 					</tbody>
 				</table>
@@ -112,23 +118,21 @@
 	$("#replyBtn").on("click", function(){
 		var boardIdx = $("#boardIdx").val();
 
-		var param = "contents=" + $("#replyContents").val() +"&bno=" + boardIdx;
+		var param = "contents=" + $("#replyContents").val() +"&board_idx=" + boardIdx;
 
 		$.ajax({
 			data : param
-			,dataType : 'json'
 			,type : "POST"
-			,url :  "/layout/board/insertReply"
+			,url :  "/layout/board/insertComment"
 			,beforeSend : function(xhr){
 				xhr.setRequestHeader(header, token);
 			}
 			,success : function(data){
-				alert(data);
 				if(data == "true")
 					alert("댓글 등록 완료!");
 			}
 			,error:function(request,status,error) {
-				//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
 			}
 		})
 	});

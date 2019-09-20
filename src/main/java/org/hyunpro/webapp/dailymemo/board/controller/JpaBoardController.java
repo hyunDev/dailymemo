@@ -4,19 +4,16 @@ import org.apache.commons.io.FileUtils;
 import org.hyunpro.webapp.dailymemo.Account.SecurityAccount;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardEntity;
 import org.hyunpro.webapp.dailymemo.board.entity.BoardFileEntity;
-import org.hyunpro.webapp.dailymemo.board.entity.Reply;
+import org.hyunpro.webapp.dailymemo.board.entity.Comment;
 import org.hyunpro.webapp.dailymemo.board.service.JpaBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.File;
 import java.net.URLEncoder;
 import java.util.List;
@@ -73,8 +70,20 @@ public class JpaBoardController {
 
     @ResponseBody
     @RequestMapping(value="/layout/board/insertReply", method = RequestMethod.POST)
-    public String insertReply(@ModelAttribute @Valid Reply reply, BindingResult result, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
+    public String insertReply(@ModelAttribute Reply reply, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
         jpaBoardService.saveReply(reply,  account);
+        return "true";
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/layout/board/insertComment", method = RequestMethod.POST)
+    public String insertComment(@ModelAttribute Comment comment, @RequestParam int board_idx, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
+
+        BoardEntity board = jpaBoardService.selectBoardDetail(board_idx, "comment");
+        comment.setCreatorId(account.getUsername());
+        board.addComment(comment);
+        jpaBoardService.saveBoard(board);
+
         return "true";
     }
 
@@ -83,8 +92,8 @@ public class JpaBoardController {
         ModelAndView mv = new ModelAndView(basicUrl + "/jpaBoardDetail");
 
         BoardEntity board = jpaBoardService.selectBoardDetail(boardIdx, "detail");
-        List<Reply> list = jpaBoardService.getReplyList(boardIdx);
-
+        //List<Reply> list = jpaBoardService.getReplyList(boardIdx);
+        List<Comment> list = jpaBoardService.getCommentList(boardIdx);
         mv.addObject("board", board);
         mv.addObject("list", list);
 
