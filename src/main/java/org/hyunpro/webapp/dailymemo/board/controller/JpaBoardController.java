@@ -69,13 +69,6 @@ public class JpaBoardController {
 
 
     @ResponseBody
-    @RequestMapping(value="/layout/board/insertReply", method = RequestMethod.POST)
-    public String insertReply(@ModelAttribute Reply reply, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
-        jpaBoardService.saveReply(reply,  account);
-        return "true";
-    }
-
-    @ResponseBody
     @RequestMapping(value="/layout/board/insertComment", method = RequestMethod.POST)
     public String insertComment(@ModelAttribute Comment comment, @RequestParam int board_idx, @AuthenticationPrincipal  SecurityAccount account) throws Exception{
 
